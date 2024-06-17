@@ -1,0 +1,36 @@
+class Solution:
+    def minWindow(self, s: str, t: str) -> str:
+        char_freq = {}
+        for char in t:
+            char_freq[char] = char_freq.get(char, 0) + 1
+
+    # Initialize pointers and variables
+        left, right = 0, 0
+        min_window = ""
+        min_length = float('inf')
+        required_chars = len(char_freq)
+
+        while right < len(s):
+        # Move the right pointer
+            if s[right] in char_freq:
+                char_freq[s[right]] -= 1
+                if char_freq[s[right]] == 0:
+                    required_chars -= 1
+
+        # Try to minimize the window
+            while required_chars == 0:
+                if right - left + 1 < min_length:
+                    min_length = right - left + 1
+                    min_window = s[left:right + 1]
+
+                if s[left] in char_freq:
+                    char_freq[s[left]] += 1
+                    if char_freq[s[left]] > 0:
+                        required_chars += 1
+                left += 1
+
+        # Move the right pointer
+            right += 1
+
+        return min_window
+        
