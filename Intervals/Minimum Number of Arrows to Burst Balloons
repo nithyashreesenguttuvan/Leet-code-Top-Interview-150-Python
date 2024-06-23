@@ -1,0 +1,21 @@
+class Solution:
+    def findMinArrowShots(self, points: List[List[int]]) -> int:
+        if not points:
+            return 0
+
+    # Sort the intervals by their end points
+        points.sort(key=lambda x: x[1])
+
+    # Initialize variables
+        arrows = 1
+        end = points[0][1]
+
+    # Iterate through the intervals
+        for i in range(1, len(points)):
+            if points[i][0] > end:
+            # If the current interval starts after the end of the last interval
+            # that an arrow was shot at, shoot a new arrow
+                arrows += 1
+                end = points[i][1]
+
+        return arrows
