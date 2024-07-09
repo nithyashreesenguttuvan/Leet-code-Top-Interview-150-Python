@@ -1,0 +1,31 @@
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        graph = [[] for _ in range(numCourses)]
+        for course, prereq in prerequisites:
+            graph[course].append(prereq)
+
+    # Visited array to track the status of each node
+        visited = [0] * numCourses
+
+        def dfs(node):
+            if visited[node] == 1:
+                return False  # Detected a cycle
+            if visited[node] == 2:
+                return True  # Already fully processed this node
+
+        # Mark the node as being visited
+            visited[node] = 1
+            for neighbor in graph[node]:
+                if not dfs(neighbor):
+                    return False
+        
+        # Mark the node as fully processed
+            visited[node] = 2
+            return True
+
+    # Check each course to see if it can be completed
+        for course in range(numCourses):
+            if not dfs(course):
+                return False
+    
+        return True
