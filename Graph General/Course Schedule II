@@ -1,0 +1,32 @@
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        adjacency_list = defaultdict(list)
+        in_degree = [0] * numCourses
+    
+    # Fill the adjacency list and in-degree array
+        for dest, src in prerequisites:
+            adjacency_list[src].append(dest)
+            in_degree[dest] += 1
+    
+    # Queue for nodes with 0 in-degree
+        zero_in_degree_queue = deque([i for i in range(numCourses) if in_degree[i] == 0])
+    
+        topological_order = []
+    
+    # Process nodes with 0 in-degree
+        while zero_in_degree_queue:
+            node = zero_in_degree_queue.popleft()
+            topological_order.append(node)
+        
+        # Reduce in-degree for neighbors
+            for neighbor in adjacency_list[node]:
+                in_degree[neighbor] -= 1
+            # If in-degree becomes 0, add to queue
+                if in_degree[neighbor] == 0:
+                    zero_in_degree_queue.append(neighbor)
+    
+    # If topological sort includes all courses, return the result
+        if len(topological_order) == numCourses:
+            return topological_order
+        else:
+            return []
