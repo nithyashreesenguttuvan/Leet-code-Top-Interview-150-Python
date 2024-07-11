@@ -1,0 +1,53 @@
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.is_end_of_word = False
+        self.word = None
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+        
+    def insert(self, word):
+        node = self.root
+        for char in word:
+            if char not in node.children:
+                node.children[char] = TrieNode()
+            node = node.children[char]
+        node.is_end_of_word = True
+        node.word = word
+
+class Solution:
+    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
+        # Build the Trie
+        trie = Trie()
+        for word in words:
+            trie.insert(word)
+        
+        self.result = set()
+        self.board = board
+        self.m = len(board)
+        self.n = len(board[0])
+        
+        # Start DFS from each cell
+        for i in range(self.m):
+            for j in range(self.n):
+                if board[i][j] in trie.root.children:
+                    self.dfs(i, j, trie.root)
+        
+        return list(self.result)
+    
+    def dfs(self, i, j, node):
+        char = self.board[i][j]
+        current_node = node.children[char]
+        
+        if current_node.is_end_of_word:
+            self.result.add(current_node.word)
+        
+        self.board[i][j] = '#'  # Mark the cell as visited
+        
+        for x, y in [(i-1, j), (i+1, j), (i, j-1), (i, j+1)]:
+            if 0 <= x < self.m and 0 <= y < self.n and self.board[x][y] in current_node.children:
+                self.dfs(x, y, current_node)
+        
+        self.board[i][j] = char 
