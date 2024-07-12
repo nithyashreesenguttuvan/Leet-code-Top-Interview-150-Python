@@ -1,0 +1,14 @@
+class Solution:
+    def combine(self, n: int, k: int) -> List[List[int]]:
+        def backtrack(start, path):
+        # If the combination is complete, add it to the result.
+            if len(path) == k:
+                result.append(path)
+                return
+        # Try adding more elements to the current combination.
+            for i in range(start, n + 1):
+                backtrack(i + 1, path + [i])
+    
+        result = []
+        backtrack(1, [])
+        return result
