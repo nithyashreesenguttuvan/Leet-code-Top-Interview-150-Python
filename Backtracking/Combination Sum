@@ -1,0 +1,19 @@
+class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        def backtrack(start, current_combination, current_sum):
+            if current_sum == target:
+                result.append(list(current_combination))
+                return
+            if current_sum > target:
+                return
+        
+            for i in range(start, len(candidates)):
+                candidate = candidates[i]
+                current_combination.append(candidate)
+                backtrack(i, current_combination, current_sum + candidate)
+                current_combination.pop()
+
+        result = []
+        candidates.sort()
+        backtrack(0, [], 0)
+        return result
