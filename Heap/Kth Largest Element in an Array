@@ -1,1 +1,12 @@
+class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        heap = nums[:k]
+        heapq.heapify(heap)  # Transform the list into a heap, in-place, in linear time
 
+        # Iterate over the remaining elements
+        for num in nums[k:]:
+            if num > heap[0]:  # Only push if the current number is larger than the smallest in the heap
+                heapq.heapreplace(heap, num)  # Pop and push in one operation
+
+        # The root of the heap is the k-th largest element
+        return heap[0]
