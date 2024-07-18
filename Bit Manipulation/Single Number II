@@ -1,0 +1,16 @@
+class Solution:
+    def singleNumber(self, nums: List[int]) -> int:
+        ones, twos = 0, 0
+    
+        for num in nums:
+        # Update `twos` with bits that appear second time
+            twos |= ones & num
+        # Update `ones` with bits that appear first time or third time
+            ones ^= num
+        # `threes` is a bitmask that keeps track of bits that appear third time
+            threes = ones & twos
+        # Remove bits that appear third time from `ones` and `twos`
+            ones &= ~threes
+            twos &= ~threes
+    
+        return ones
