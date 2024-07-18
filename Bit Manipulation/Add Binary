@@ -1,1 +1,24 @@
+class Solution:
+    def addBinary(self, a: str, b: str) -> str:
+        i, j = len(a) - 1, len(b) - 1
+        carry = 0
+        result = []
 
+    # Iterate while there are bits to process or there is a carry
+        while i >= 0 or j >= 0 or carry:
+            total_sum = carry
+
+            if i >= 0:
+                total_sum += int(a[i])
+                i -= 1
+        
+            if j >= 0:
+                total_sum += int(b[j])
+                j -= 1
+        
+        # Compute the current bit and carry
+            carry = total_sum // 2
+            result.append(str(total_sum % 2))
+    
+    # Join the result list into a string and reverse it
+        return ''.join(result[::-1])
