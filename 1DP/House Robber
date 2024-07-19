@@ -1,0 +1,20 @@
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        if not nums:
+            return 0
+        if len(nums) == 1:
+            return nums[0]
+    
+    # Create a dp array to store the maximum amount of money we can rob up to each house
+        dp = [0] * len(nums)
+    
+    # Base cases
+        dp[0] = nums[0]
+        dp[1] = max(nums[0], nums[1])
+    
+    # Fill the dp array using the recurrence relation
+        for i in range(2, len(nums)):
+            dp[i] = max(dp[i-1], nums[i] + dp[i-2])
+    
+    # The last element of dp array contains the answer
+        return dp[-1]
