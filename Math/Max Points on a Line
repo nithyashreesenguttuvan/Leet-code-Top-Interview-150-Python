@@ -1,0 +1,37 @@
+class Solution:
+    def maxPoints(self, points: List[List[int]]) -> int:
+        import math
+        from collections import defaultdict
+    
+        def gcd(a, b):
+            while b:
+                a, b = b, a % b
+            return a
+    
+        def slope(p1, p2):
+            dx, dy = p1[0] - p2[0], p1[1] - p2[1]
+            if dx == 0:
+                return (0, p1[0])  # vertical line
+            if dy == 0:
+                return (p1[1], 0)  # horizontal line
+            g = gcd(dx, dy)
+            return (dx // g, dy // g)
+    
+        n = len(points)
+        if n <= 2:
+            return n
+    
+        max_points_on_line = 1
+    
+        for i in range(n):
+            slopes = defaultdict(int)
+            duplicate_points = 1
+            for j in range(i + 1, n):
+                if points[i] == points[j]:
+                    duplicate_points += 1
+                    continue
+                s = slope(points[i], points[j])
+                slopes[s] += 1
+            max_points_on_line = max(max_points_on_line, duplicate_points + max(slopes.values(), default=0))
+    
+        return max_points_on_line
