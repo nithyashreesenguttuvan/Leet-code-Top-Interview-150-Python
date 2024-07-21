@@ -1,0 +1,21 @@
+class Solution:
+    def maxProfit(self, k: int, prices: List[int]) -> int:
+        if not prices or k == 0:
+            return 0
+
+        n = len(prices)
+    
+    # If k is larger than n // 2, it's effectively the same as infinite transactions.
+        if k >= n // 2:
+            return sum(max(prices[i + 1] - prices[i], 0) for i in range(n - 1))
+
+    # DP table
+        dp = [[0] * n for _ in range(k + 1)]
+
+        for t in range(1, k + 1):
+            max_profit_before_day = -prices[0]
+            for d in range(1, n):
+                dp[t][d] = max(dp[t][d - 1], prices[d] + max_profit_before_day)
+                max_profit_before_day = max(max_profit_before_day, dp[t - 1][d] - prices[d])
+
+        return dp[k][n - 1]
